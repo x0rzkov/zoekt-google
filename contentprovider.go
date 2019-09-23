@@ -223,7 +223,7 @@ func (p *contentProvider) fillContentMatches(ms []*candidateMatch) []LineMatch {
 				fragment.SymbolInfo = p.id.symbols.data(start + m.symbolIdx)
 				if fragment.SymbolInfo != nil {
 					sec := p.docSections()[m.symbolIdx]
-					fragment.SymbolInfo.Sym = string(data[sec.Start:sec.End])
+					fragment.SymbolInfo.Sym = data[sec.Start:sec.End]
 				}
 			}
 

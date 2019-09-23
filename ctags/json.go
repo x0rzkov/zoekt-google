@@ -148,23 +148,23 @@ type request struct {
 type reply struct {
 	// Init
 	Typ     string `json:"_type"`
-	Name    string `json:"name"`
-	Version string `json:"version"`
+	Name    []byte `json:"name"`
+	Version string `json:"_version"`
 
 	// completed
-	Command string `json:"command"`
+	Command string `json:"_command"`
 
 	// Ignore pattern: we don't use it and universal-ctags
 	// sometimes generates 'false' as value.
 	Path      string `json:"path"`
 	Language  string `json:"language"`
 	Line      int    `json:"line"`
-	Kind      string `json:"kind"`
-	End       int    `json:"end"`
-	Scope     string `json:"scope"`
-	ScopeKind string `json:"scopeKind"`
-	Access    string `json:"access"`
-	Signature string `json:"signature"`
+	Kind      []byte `json:"kind"`
+	End       int    `json:"_end"`
+	Scope     []byte `json:"scope"`
+	ScopeKind []byte `json:"scopeKind"`
+	Access    string `json:"_access"`
+	Signature string `json:"_signature"`
 }
 
 func (p *ctagsProcess) Parse(name string, content []byte) ([]*Entry, error) {

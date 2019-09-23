@@ -349,20 +349,20 @@ func (b *IndexBuilder) populateSubRepoIndices() {
 
 const notIndexedMarker = "NOT-INDEXED: "
 
-func (b *IndexBuilder) symbolID(sym string) uint32 {
-	if _, ok := b.symIndex[sym]; !ok {
-		b.symIndex[sym] = b.symID
+func (b *IndexBuilder) symbolID(sym []byte) uint32 {
+	if _, ok := b.symIndex[string(sym)]; !ok {
+		b.symIndex[string(sym)] = b.symID
 		b.symID++
 	}
-	return b.symIndex[sym]
+	return b.symIndex[string(sym)]
 }
 
-func (b *IndexBuilder) symbolKindID(t string) uint32 {
-	if _, ok := b.symKindIndex[t]; !ok {
-		b.symKindIndex[t] = b.symKindID
+func (b *IndexBuilder) symbolKindID(kind []byte) uint32 {
+	if _, ok := b.symKindIndex[string(kind)]; !ok {
+		b.symKindIndex[string(kind)] = b.symKindID
 		b.symKindID++
 	}
-	return b.symKindIndex[t]
+	return b.symKindIndex[string(kind)]
 }
 
 func (b *IndexBuilder) addSymbols(symbols []*Symbol) {

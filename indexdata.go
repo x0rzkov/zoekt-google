@@ -139,11 +139,11 @@ func (d *symbolData) data(i uint32) *Symbol {
 	metadata := d.symMetaData[offset : offset+size]
 	sym := &Symbol{}
 	key := uint32SliceAt(metadata, 1)
-	sym.Kind = string(d.kind(key))
+	sym.Kind = d.kind(key)
 	key = uint32SliceAt(metadata, 2)
-	sym.Parent = string(d.parent(key))
+	sym.Parent = d.parent(key)
 	key = uint32SliceAt(metadata, 3)
-	sym.ParentKind = string(d.kind(key))
+	sym.ParentKind = d.kind(key)
 	return sym
 }
 

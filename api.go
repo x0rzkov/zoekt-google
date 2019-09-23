@@ -78,10 +78,10 @@ type LineMatch struct {
 }
 
 type Symbol struct {
-	Sym        string
-	Kind       string
-	Parent     string
-	ParentKind string
+	Sym        []byte
+	Kind       []byte
+	Parent     []byte
+	ParentKind []byte
 }
 
 // LineFragmentMatch a segment of matching text within a line.

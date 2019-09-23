@@ -21,13 +21,13 @@ import (
 )
 
 type Entry struct {
-	Sym        string
+	Sym        []byte
 	Path       string
 	Line       int
-	Kind       string
+	Kind       []byte
 	Language   string
-	Parent     string
-	ParentKind string
+	Parent     []byte
+	ParentKind []byte
 
 	FileLimited bool
 }
@@ -41,7 +41,7 @@ func Parse(in string) (*Entry, error) {
 		return nil, fmt.Errorf("too few fields: %q", in)
 	}
 
-	e.Sym = fields[0]
+	e.Sym = []byte(fields[0])
 	e.Path = fields[1]
 
 	lstr := fields[2]
@@ -54,7 +54,7 @@ func Parse(in string) (*Entry, error) {
 		return nil, err
 	}
 	e.Line = int(l)
-	e.Kind = fields[3]
+	e.Kind = []byte(fields[3])
 
 field:
 	for _, f := range fields[3:] {
@@ -63,8 +63,8 @@ field:
 		}
 		for _, p := range []string{"class", "enum"} {
 			if strings.HasPrefix(f, p+":") {
-				e.Parent = strings.TrimPrefix(f, p+":")
-				e.ParentKind = p
+				e.Parent = []byte(strings.TrimPrefix(f, p+":"))
+				e.ParentKind = []byte(p)
 				continue field
 			}
 		}
