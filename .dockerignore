@@ -1,0 +1,14 @@
+Dockerfile
+docker-compose.yml
+*.md
+Makefile
+.git
+.git/
+.git/*
+.git/**
+CONTRIBUTING
+LICENSE
+vendor
+vendor/
+vendor/*
+vendor/**
