@@ -17,17 +17,6 @@ services:
     - zoekt-data:/opt/zoekt/data
     command: ["zoekt-webserver"]
 
-  zoekt-archive-index:
-    container_name: zoekt-archive-index
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-    - zoekt-data:/opt/zoekt/data
-    networks:
-    - intranet
-    command: ["zoekt-archive-index"]
-
 volumes:
     zoekt-data:
 

@@ -7,65 +7,9 @@ RUN apk add --no-cache make
 COPY .  /go/src/github.com/google/zoekt
 WORKDIR /go/src/github.com/google/zoekt
 
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-archive-index \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-git-clone \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-git-index \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-index \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-indexserver \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-mirror-bitbucket-server \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gerrit \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-mirror-github \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gitiles \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gitlab \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-repo-index \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-sourcegraph-indexserver \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-test \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt-webserver \
-    && go build -v \
-    && ls -lhS
-
-RUN cd /go/src/github.com/google/zoekt/cmd/zoekt \
-    && go build -v \
-    && ls -lhS
+RUN cd /go/src/github.com/google/zoekt \
+    && go install ./cmd/... \
+    && ls -lhS /go/bin
 
 FROM alpine:3.10 AS runtime
 
@@ -85,21 +29,21 @@ RUN apk --no-cache --no-progress add ca-certificates \
 WORKDIR /opt/google/data
 
 # Copy gcse binary to /opt/gcse/bin
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-archive-index /opt/google/bin/zoekt-archive-index
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-git-clone /opt/google/bin/zoekt-git-clone
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-git-index /opt/google/bin/zoekt-git-index
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-index /opt/google/bin/zoekt-index
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-indexserver /opt/google/bin/zoekt-indexserver
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-mirror-bitbucket-server /opt/google/bin/zoekt-mirror-bitbucket-server
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gerrit /opt/google/bin/zoekt-mirror-gerrit
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-mirror-github /opt/google/bin/zoekt-mirror-github
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gitiles /opt/google/bin/zoekt-mirror-gitiles
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-mirror-gitlab /opt/google/bin/zoekt-mirror-gitlab
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-repo-index /opt/google/bin/zoekt-repo-index
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-sourcegraph-indexserver /opt/google/bin/zoekt-sourcegraph-indexserver
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-test /opt/google/bin/zoekt-test
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt-webserver /opt/google/bin/zoekt-webserver
-COPY --from=builder /go/src/github.com/google/zoekt/cmd/zoekt /opt/google/bin/zoekt
+COPY --from=builder /go/bin/zoekt-archive-index /opt/google/bin/zoekt-archive-index
+COPY --from=builder /go/bin/zoekt-git-clone /opt/google/bin/zoekt-git-clone
+COPY --from=builder /go/bin/zoekt-git-index /opt/google/bin/zoekt-git-index
+COPY --from=builder /go/bin/zoekt-index /opt/google/bin/zoekt-index
+COPY --from=builder /go/bin/zoekt-indexserver /opt/google/bin/zoekt-indexserver
+COPY --from=builder /go/bin/zoekt-mirror-bitbucket-server /opt/google/bin/zoekt-mirror-bitbucket-server
+COPY --from=builder /go/bin/zoekt-mirror-gerrit /opt/google/bin/zoekt-mirror-gerrit
+COPY --from=builder /go/bin/zoekt-mirror-github /opt/google/bin/zoekt-mirror-github
+COPY --from=builder /go/bin/zoekt-mirror-gitiles /opt/google/bin/zoekt-mirror-gitiles
+COPY --from=builder /go/bin/zoekt-mirror-gitlab /opt/google/bin/zoekt-mirror-gitlab
+COPY --from=builder /go/bin/zoekt-repo-index /opt/google/bin/zoekt-repo-index
+COPY --from=builder /go/bin/zoekt-sourcegraph-indexserver /opt/google/bin/zoekt-sourcegraph-indexserver
+COPY --from=builder /go/bin/zoekt-test /opt/google/bin/zoekt-test
+COPY --from=builder /go/bin/zoekt-webserver /opt/google/bin/zoekt-webserver
+COPY --from=builder /go/bin/zoekt /opt/google/bin/zoekt
 
 ENV PATH $PATH:/opt/google/bin
 
